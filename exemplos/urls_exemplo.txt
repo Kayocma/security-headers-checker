@@ -1,0 +1,7 @@
+# URLs de exemplo para teste do Security Headers Checker
+# Linhas iniciadas com # são ignoradas
+# Uma URL por linha
+
+https://www.gov.br
+https://http.badssl.com
+https://mozilla.org
