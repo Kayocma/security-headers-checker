@@ -6,7 +6,7 @@ Analisa cabeçalhos de segurança HTTP de URLs e gera relatório de pontuação.
 import argparse
 import json
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from urllib.parse import urlparse
 
 import requests
@@ -434,7 +434,7 @@ def exibir_resultado(url: str, url_final: str, codigo_http: int, resultados: Lis
 def gerar_relatorio_json(url: str, url_final: str, codigo_http: int, resultados: List[dict], pontuacao: int) -> dict:
     """Gera o dicionário de relatório para exportação em JSON."""
     return {
-        "data_analise": datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "data_analise": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "url_solicitada": url,
         "url_final": url_final,
         "codigo_http": codigo_http,
@@ -490,7 +490,7 @@ def processar_url(url_raw: str, exportar_json: bool) -> Optional[dict]:
     if exportar_json:
         # Nome de arquivo baseado no domínio e timestamp
         dominio = urlparse(url_final).netloc.replace(":", "_")
-        timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
         nome_arquivo = f"relatorio_{dominio}_{timestamp}.json"
         with open(nome_arquivo, "w", encoding="utf-8") as f:
             json.dump(relatorio, f, ensure_ascii=False, indent=2)
